@@ -12,6 +12,7 @@ import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+
 # Create your views here.
 
 @login_required(login_url='/login')
@@ -23,7 +24,7 @@ def show_main(request):
         'class': 'PBP KKI',
         'npm': '2306123456',
         'mood_entries': mood_entries,
-        'last_login': request.COOKIES['last_login'],
+        'last_login': request.COOKIES.get('last_login', 'Never'),
     }
 
     return render(request, "main.html", context)
@@ -90,3 +91,6 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+def main_view(request):
+    return render(request, 'main.html')
